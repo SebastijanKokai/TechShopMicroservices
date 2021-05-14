@@ -1,10 +1,10 @@
-package com.iis.prodavnicatehnike.controllers;
+package com.iis.prodavnicatehnike.producttype.controllers;
 
-import com.iis.prodavnicatehnike.models.ProductType;
+import com.iis.prodavnicatehnike.producttype.models.ProductType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.iis.prodavnicatehnike.repositories.ProductTypeRepository;
+import com.iis.prodavnicatehnike.producttype.repositories.ProductTypeRepository;
 
 import java.util.List;
 import java.util.Optional;

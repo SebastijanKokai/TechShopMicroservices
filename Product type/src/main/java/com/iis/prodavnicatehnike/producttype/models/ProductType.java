@@ -1,4 +1,4 @@
-package com.iis.prodavnicatehnike.models;
+package com.iis.prodavnicatehnike.producttype.models;
 
 import javax.persistence.*;
 

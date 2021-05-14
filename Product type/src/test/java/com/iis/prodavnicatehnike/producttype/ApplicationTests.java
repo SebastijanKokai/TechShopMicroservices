@@ -1,4 +1,4 @@
-package com.iis.prodavnicatehnike;
+package com.iis.prodavnicatehnike.producttype;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
