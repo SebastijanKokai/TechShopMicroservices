@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 //@Service
 public class ProductTypeServiceImpl implements ProductTypeService {
-    private String baseUrl="localhost:8082/product_type";
+    private String baseUrl="localhost:8086/product-types";
     @Override
     public ProductType GetProductTypeById(Integer id) {
         RestTemplate productRest=new RestTemplate();
