@@ -1,12 +1,6 @@
 package com.agilne.productMicroservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,20 +19,13 @@ public class Product {
     // Attributes
 	private String name;
 	private Integer available;
-
+	@Column(name = "product_type")
+	private Integer productTypeId;
 	// Relationships
-	@ManyToOne
-	@JoinColumn(name="product_type")
+	@Transient
 	private ProductType productType;
-	@JsonIgnore
-	@OneToMany(mappedBy="assemblyId")
-	private List<Assembly> assemblies;
-	@JsonIgnore
-	@OneToMany(mappedBy="partId")
-	private List<Assembly> parts;
-	@OneToMany(mappedBy="productId")
-	@JsonIgnore
-	private List<OrderItem> orderItems;
+
+
 
 	// Getters and setters
 	public ProductType getProductType() {
@@ -46,18 +33,6 @@ public class Product {
 	}
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
-	}
-	public List<Assembly> getAssemblies() {
-		return assemblies;
-	}
-	public void setAssemblies(List<Assembly> assemblies) {
-		this.assemblies = assemblies;
-	}
-	public List<Assembly> getParts() {
-		return parts;
-	}
-	public void setParts(List<Assembly> parts) {
-		this.parts = parts;
 	}
 	public Integer getId() {
 		return id;
@@ -77,29 +52,12 @@ public class Product {
 	public void setAvailable(Integer available) {
 		this.available = available;
 	}
+	public Integer getProductTypeId() {
+		return productTypeId;
+	}
 
-	// Methods
-	public Assembly AddAssembly(Assembly assembly)
-	{
-		getAssemblies().add(assembly);
-		assembly.setAssembly(this);
-		return assembly;
+	public void setProductTypeId(Integer productTypeId) {
+		this.productTypeId = productTypeId;
 	}
-	public Assembly removeAssembly(Assembly assembly) {
-		this.getAssemblies().remove(assembly);
-		assembly.setAssembly(null);
-		return assembly;
-	}
-	public Assembly AddPart(Assembly part)
-	{
-		getAssemblies().add(part);
-		part.setPart(this);
-		return part;
-	}
-	public Assembly removePart(Assembly part) {
-		this.getAssemblies().remove(part);
-		part.setPart(null);
-		return part;
-	}
-	
+
 }

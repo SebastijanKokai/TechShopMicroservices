@@ -16,11 +16,9 @@ public class Assembly {
 	private Integer quantity;
 
 	// Relationships
-	@ManyToOne
-	@JoinColumn(name="assemblyId",insertable = false,updatable = false)
+	@Transient
 	private Product assembly;
-	@ManyToOne
-	@JoinColumn(name="partId",insertable = false,updatable = false)
+	@Transient
 	private Product part;
 
 	// Getters and setters

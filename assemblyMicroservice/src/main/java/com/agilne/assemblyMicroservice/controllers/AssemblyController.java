@@ -1,5 +1,7 @@
 package com.agilne.assemblyMicroservice.controllers;
 
+import com.agilne.assemblyMicroservice.Dto.AssemblyDto;
+import com.agilne.assemblyMicroservice.Dto.AssemblyModificationDto;
 import com.agilne.assemblyMicroservice.models.Assembly;
 import com.agilne.assemblyMicroservice.services.interfaces.AssemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping(path = "/assemblies")
@@ -26,21 +28,21 @@ public class AssemblyController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Assembly>> getAllAssemblies(){
+    public ResponseEntity<List<AssemblyDto>> getAllAssemblies(){
         return ResponseEntity.ok(assemblyService.getAllAssemblies());
     }
     @GetMapping(path = "/{assembly}/{part}")
-    public ResponseEntity<Optional<Assembly>> getAssemblyById(@PathVariable("assembly") Integer assembly,@PathVariable("part") Integer part)
+    public ResponseEntity<AssemblyDto> getAssemblyById(@PathVariable("assembly") Integer assembly,@PathVariable("part") Integer part)
     {
         return ResponseEntity.ok(assemblyService.getAssemblyById(assembly,part));
     }
     @PostMapping()
-    public ResponseEntity<Assembly> insertAssembly(@RequestBody Assembly assembly)
+    public ResponseEntity<AssemblyDto> insertAssembly(@RequestBody AssemblyModificationDto assembly)
     {
         return ResponseEntity.ok(assemblyService.insert(assembly));
     }
     @PutMapping(path = "/{assemblyId}/{partId}")
-    public ResponseEntity<Optional<Assembly>> updateAssembly(@RequestBody Assembly assembly, @PathVariable("assemblyId") Integer assemblyId, @PathVariable("partId") Integer partId)
+    public ResponseEntity<AssemblyDto> updateAssembly(@RequestBody AssemblyModificationDto assembly, @PathVariable("assemblyId") Integer assemblyId, @PathVariable("partId") Integer partId)
     {
         return ResponseEntity.ok(assemblyService.update(assembly,assemblyId,partId));
     }

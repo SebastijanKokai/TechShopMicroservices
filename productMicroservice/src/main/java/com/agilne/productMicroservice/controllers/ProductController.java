@@ -1,5 +1,8 @@
 package com.agilne.productMicroservice.controllers;
 
+import com.agilne.productMicroservice.Dto.ProductCreationDto;
+import com.agilne.productMicroservice.Dto.ProductDto;
+import com.agilne.productMicroservice.Dto.ProductUpdateDto;
 import com.agilne.productMicroservice.models.Product;
 import com.agilne.productMicroservice.services.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +27,22 @@ public class ProductController {
         this.productService = productService;
     }
     @GetMapping()
-    public ResponseEntity<List<Product>> getAllProducts()
+    public ResponseEntity<List<ProductDto>> getAllProducts()
     {
         return ResponseEntity.ok(productService.getAllProducts());
     }
     @GetMapping(path="{id}")
-    public ResponseEntity<Optional<Product>> getProductById(@PathVariable("id") Integer id)
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Integer id)
     {
         return  ResponseEntity.ok(productService.getProductById(id));
     }
     @PostMapping()
-    public ResponseEntity<Product> insertProduct(@RequestBody Product product)
+    public ResponseEntity<ProductDto> insertProduct(@RequestBody ProductCreationDto product)
     {
         return ResponseEntity.ok(productService.insert(product));
     }
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Optional<Product>> updateProduct(@RequestBody Product product, @PathVariable("id") Integer id)
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductUpdateDto product, @PathVariable("id") Integer id)
     {
         return ResponseEntity.ok(productService.update(product,id));
     }
