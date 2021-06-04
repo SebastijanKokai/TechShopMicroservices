@@ -1,10 +1,10 @@
 package com.iis.prodavnicatehnike.producttype.controllers;
 
 import com.iis.prodavnicatehnike.producttype.models.ProductType;
+import com.iis.prodavnicatehnike.producttype.services.interfaces.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.iis.prodavnicatehnike.producttype.repositories.ProductTypeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,33 +14,30 @@ import java.util.Optional;
 public class ProductTypeController {
 
     @Autowired
-    private ProductTypeRepository productTypeRepository;
+    private ProductTypeService productTypeService;
 
     @GetMapping()
     public ResponseEntity<List<ProductType>> getAllProductTypes() {
 
-        return ResponseEntity.ok(productTypeRepository.findAll());
+        return ResponseEntity.ok(productTypeService.findAllProductTypes());
     }
 
     @GetMapping(path="{id}")
     public ResponseEntity<Optional<ProductType>> getProductTypeById(@PathVariable("id") Integer id)
     {
-        return  ResponseEntity.ok(productTypeRepository.findById(id));
+        return  ResponseEntity.ok(productTypeService.findProductTypeById(id));
     }
 
     @PostMapping()
     public ResponseEntity<ProductType> insertProductType(@RequestBody ProductType productType)
     {
-        return ResponseEntity.ok(productTypeRepository.save(productType));
+        return ResponseEntity.ok(productTypeService.createProductType(productType));
     }
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<Optional<ProductType>> updateProductType(@RequestBody ProductType newProductType, @PathVariable("id") Integer id)
     {
-        Optional<ProductType> productType = productTypeRepository.findById(id).map(oldProductType -> {
-            oldProductType.setName(newProductType.getName());
-            return productTypeRepository.save(oldProductType);
-        });
+        Optional<ProductType> productType = productTypeService.updateProductType(newProductType, id);
         if (productType.isPresent()) {
             return ResponseEntity.ok(productType);
         } else {
@@ -50,7 +47,7 @@ public class ProductTypeController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteProductType(@PathVariable("id") Integer id)
     {
-        productTypeRepository.deleteById(id);
+        productTypeService.deleteProductType(id);
         return ResponseEntity.noContent().build();
     }
 }
