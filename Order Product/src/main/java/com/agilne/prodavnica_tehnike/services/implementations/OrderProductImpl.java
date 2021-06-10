@@ -7,12 +7,12 @@ import com.agilne.prodavnica_tehnike.dtos.PostOrderDto;
 import com.agilne.prodavnica_tehnike.models.*;
 import com.agilne.prodavnica_tehnike.repositories.OrderProductRepository;
 import com.agilne.prodavnica_tehnike.services.interfaces.OrderProductService;
+import com.agilne.prodavnica_tehnike.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,19 +25,15 @@ public class OrderProductImpl implements OrderProductService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    private final String customerURL = "http://localhost:8081/customers";
-    private final String delivererURL = "http://localhost:8082/deliverers";
-    private final String employeeURL = "http://localhost:8083/employees";
+    CustomerService customerService = new CustomerService();
+    EmployeeService employeeService = new EmployeeService();
+    DelivererService delivererService = new DelivererService();
+    ProductService productService = new ProductService();
+    OrderItemService orderItemService = new OrderItemService();
     private final String orderItemURL = "http://localhost:8084/items";
-    private final String productResourceURL = "http://localhost:8087/products";
-
-
-//    @Autowired
-//    EntityManager entityManager;
 
     @Override
     public List<GetOrderDto> findAllOrders() {
-//        entityManager.getEntityManagerFactory().getCache().evictAll();
         List<OrderProduct> orders = orderRepository.findAll();
         List<GetOrderDto> mappedOrders = new ArrayList<>();
         String employee = "", deliverer = "", customer = "";
@@ -74,36 +70,34 @@ public class OrderProductImpl implements OrderProductService {
 
         OrderProduct postOrder = new OrderProduct();
         // Communication with customer, employee, deliverer microservices
-        Customer customer
-                = restTemplate.getForObject(customerURL + "/" + order.getCustomerId(), Customer.class);
-
-        Employee employee
-                = restTemplate.getForObject(employeeURL + "/" + order.getEmployeeId(), Employee.class);
-
-        Deliverer deliverer
-                = restTemplate.getForObject(delivererURL + "/" + order.getDelivererId(), Deliverer.class);
+        Customer customer = customerService.getCustomerById(order.getCustomerId());
+        Employee employee = employeeService.getEmployeeById(order.getEmployeeId());
+        Deliverer deliverer = delivererService.getDelivererById(order.getDelivererId());
 
         postOrder.setOrderDate(order.getOrderDate());
         postOrder.setPrice(order.getPrice());
-        postOrder.setCustomerId(customer.getId());
-        postOrder.setDelivererId(deliverer.getId());
-        postOrder.setEmployeeId(employee.getId());
+
+        if(customer != null) {
+            postOrder.setCustomerId(customer.getId());
+            postOrder.setCustomer(customer);
+        }
+        if(employee != null) {
+            postOrder.setEmployeeId(employee.getId());
+            postOrder.setEmployee(employee);
+        }
+        if(deliverer != null) {
+            postOrder.setDelivererId(deliverer.getId());
+            postOrder.setDeliverer(deliverer);
+        }
+
         // Because I need to create an ID first
         postOrder = orderRepository.save(postOrder);
-
-        if(customer != null)
-            postOrder.setCustomer(customer);
-        if(employee != null)
-            postOrder.setEmployee(employee);
-        if(deliverer != null)
-            postOrder.setDeliverer(deliverer);
 
         for(PostOrderItemDto item : order.getOrderItems()) {
 
             OrderItem orderItem = new OrderItem();
             // Communication with product microservice
-            Product product
-                    = restTemplate.getForObject(productResourceURL + "/" + item.getProductId(), Product.class);
+            Product product = productService.getProductById(item.getProductId());
 
             orderItem.setOrderId(postOrder.getId());
             orderItem.setProductId(item.getProductId());
@@ -115,7 +109,7 @@ public class OrderProductImpl implements OrderProductService {
 
             // Communication with Order Item microservice
             // Create the order item also
-            restTemplate.postForObject(orderItemURL, orderItem, PostOrderItemDto.class);
+            orderItemService.postOrderItem(orderItem);
         }
         return postOrder;
      }
@@ -132,7 +126,7 @@ public class OrderProductImpl implements OrderProductService {
     @Override
     public void delete(Integer id) {
         if(orderRepository.findById(id).isPresent()) {
-            ResponseEntity<OrderItem[]> responseEntity = restTemplate.getForEntity(orderItemURL, OrderItem[].class);
+            ResponseEntity<OrderItem[]> responseEntity = orderItemService.getOrderItems();
             OrderItem[] orderItems = responseEntity.getBody();
             // Delete items of order before deleting the order
             for (OrderItem item : orderItems) {

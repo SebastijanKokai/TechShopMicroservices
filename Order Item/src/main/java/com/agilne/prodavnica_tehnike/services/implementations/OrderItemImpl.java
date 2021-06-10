@@ -8,6 +8,8 @@ import com.agilne.prodavnica_tehnike.models.OrderProduct;
 import com.agilne.prodavnica_tehnike.models.Product;
 import com.agilne.prodavnica_tehnike.repositories.OrderItemRepository;
 import com.agilne.prodavnica_tehnike.services.interfaces.OrderItemService;
+import com.agilne.prodavnica_tehnike.utils.OrderProductService;
+import com.agilne.prodavnica_tehnike.utils.ProductService;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +26,8 @@ public class OrderItemImpl implements OrderItemService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
-    RestTemplate restTemplate = new RestTemplate();
-    private final String productResourceURL = "http://localhost:8087/products";
-    private final String orderProductURL = "http://localhost:8085/orders";
+    ProductService productService = new ProductService();
+    OrderProductService orderProductService = new OrderProductService();
 
 
     @Override
@@ -60,11 +61,9 @@ public class OrderItemImpl implements OrderItemService {
 
     @Override
     public OrderItem insert(PostOrderItemDto item) {
-        OrderProduct orderProduct
-                = restTemplate.getForObject(orderProductURL + "/" + item.getOrderId(), OrderProduct.class);
+        OrderProduct orderProduct = orderProductService.getOrderById(item.getOrderId());
         if(orderProduct != null) {
-            Product product
-                    = restTemplate.getForObject(productResourceURL + "/" + item.getProductId(), Product.class);
+            Product product = productService.getProductById(item.getProductId());
             if(product != null) {
 
                 OrderItem orderItem = new OrderItem();
