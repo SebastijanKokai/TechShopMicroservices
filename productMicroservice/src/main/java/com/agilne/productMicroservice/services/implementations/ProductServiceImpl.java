@@ -45,11 +45,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProductById(Integer id) {
-
-        Product foundProduct=productRepository.findById(id).get();
-        foundProduct.setProductType(productTypeService.GetProductTypeById(foundProduct.getProductTypeId()));
-        ProductDto mappedProduct=new ProductDto(foundProduct.getId(),foundProduct.getName(),foundProduct.getProductTypeId(),foundProduct.getProductType().getName(),foundProduct.getAvailable());
-        return mappedProduct;
+        if (productRepository.findById(id).isPresent()) {
+            Product foundProduct = productRepository.findById(id).get();
+            foundProduct.setProductType(productTypeService.GetProductTypeById(foundProduct.getProductTypeId()));
+            ProductDto mappedProduct = new ProductDto(foundProduct.getId(), foundProduct.getName(), foundProduct.getProductTypeId(), foundProduct.getProductType().getName(), foundProduct.getAvailable());
+            return mappedProduct;
+        }
+        return null;
     }
 
     @Override

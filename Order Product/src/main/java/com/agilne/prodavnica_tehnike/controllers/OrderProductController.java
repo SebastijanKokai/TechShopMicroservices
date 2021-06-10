@@ -1,5 +1,8 @@
 package com.agilne.prodavnica_tehnike.controllers;
 
+import com.agilne.prodavnica_tehnike.dtos.GetOrderDto;
+import com.agilne.prodavnica_tehnike.dtos.ModifyOrderDto;
+import com.agilne.prodavnica_tehnike.dtos.PostOrderDto;
 import com.agilne.prodavnica_tehnike.models.OrderProduct;
 import com.agilne.prodavnica_tehnike.services.interfaces.OrderProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +21,22 @@ public class OrderProductController {
     private OrderProductService orderProductService;
 
     @GetMapping()
-    public ResponseEntity<List<OrderProduct>> getAllOrders()
+    public ResponseEntity<List<GetOrderDto>> getAllOrders()
     {
         return ResponseEntity.ok(orderProductService.findAllOrders());
     }
     @GetMapping(path="{id}")
-    public ResponseEntity<Optional<OrderProduct>> getOrderById(@PathVariable("id") Integer id)
+    public ResponseEntity<GetOrderDto> getOrderById(@PathVariable("id") Integer id)
     {
-        return  ResponseEntity.ok(orderProductService.findOrderById(id));
+        return ResponseEntity.ok(orderProductService.findOrderById(id));
     }
     @PostMapping()
-    public ResponseEntity<OrderProduct> insertOrder(@RequestBody OrderProduct order)
+    public ResponseEntity<OrderProduct> insertOrder(@RequestBody PostOrderDto order)
     {
         return ResponseEntity.ok(orderProductService.insert(order));
     }
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Optional<OrderProduct>> updateOrder(@RequestBody OrderProduct order, @PathVariable("id") Integer id)
+    public ResponseEntity<Optional<OrderProduct>> updateOrder(@RequestBody ModifyOrderDto order, @PathVariable("id") Integer id)
     {
         return ResponseEntity.ok(orderProductService.update(order,id));
     }

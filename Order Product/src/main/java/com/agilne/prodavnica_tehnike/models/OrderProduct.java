@@ -3,6 +3,7 @@ package com.agilne.prodavnica_tehnike.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,10 +20,19 @@ public class OrderProduct {
     private Date orderDate;
     private Double price;
 
+    @Column(name = "customerId")
+    private Integer customerId;
+
+    @Column(name = "delivererId")
+    private Integer delivererId;
+
+    @Column(name = "employeeId")
+    private Integer employeeId;
+
     // Relationships
     // @OneToMany(targetEntity = OrderItem.class)
     @OneToMany(mappedBy="orderId")
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
     @ManyToOne
     @JoinColumn(name = "employeeId", insertable = false, updatable = false)
@@ -37,6 +47,7 @@ public class OrderProduct {
     private Customer customer;
 
     // Getters and setters
+
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
@@ -67,6 +78,54 @@ public class OrderProduct {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Deliverer getDeliverer() {
+        return deliverer;
+    }
+
+    public void setDeliverer(Deliverer deliverer) {
+        this.deliverer = deliverer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public Integer getDelivererId() {
+        return delivererId;
+    }
+
+    public void setDelivererId(Integer delivererId) {
+        this.delivererId = delivererId;
+    }
+
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
     // Methods

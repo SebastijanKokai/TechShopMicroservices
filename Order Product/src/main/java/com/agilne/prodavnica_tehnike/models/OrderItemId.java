@@ -8,6 +8,10 @@ public class OrderItemId implements Serializable {
     private Integer productId;
     private Integer orderId;
 
+    public Integer getOrderId() {
+        return orderId;
+    }
+
     // Iz nekog razloga nece da uradi get metodu bez ovog default-nog konstruktora
     public OrderItemId() {
 

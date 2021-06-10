@@ -1,0 +1,8 @@
+Customer - 8081
+Deliverer - 8082
+Employee - 8083
+Order item - 8084
+Order - 8085
+Product type - 8086
+product - 8087
+Assembly - 8088

@@ -19,8 +19,8 @@ public class Deliverer {
     private String address;
 
     // Relationships
-    @OneToMany(mappedBy = "deliverer")
-    private List<OrderProduct> orders;
+//    @OneToMany(mappedBy = "deliverer")
+//    private List<OrderProduct> orders;
 
     public Integer getId() { return id; }
 

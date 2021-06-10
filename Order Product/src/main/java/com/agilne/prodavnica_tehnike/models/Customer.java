@@ -21,8 +21,8 @@ public class Customer {
     private String address;
 
     // Relationships
-    @OneToMany(mappedBy = "customer")
-    private List<OrderProduct> orders;
+//    @OneToMany(mappedBy = "customer")
+//    private List<OrderProduct> orders;
 
     public Integer getId() { return id; }
 

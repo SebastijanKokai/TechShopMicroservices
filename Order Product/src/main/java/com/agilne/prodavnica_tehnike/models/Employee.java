@@ -19,8 +19,8 @@ public class Employee {
     private String contact;
 
     // Relationships
-    @OneToMany(mappedBy = "employee")
-    private List<OrderProduct> orders;
+//    @OneToMany(mappedBy = "employee")
+//    private List<OrderProduct> orders;
 
     public Integer getId() {
         return id;

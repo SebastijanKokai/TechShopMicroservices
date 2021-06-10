@@ -25,15 +25,15 @@ public class OrderProduct {
     private List<OrderItem> orderItems;
 
     @ManyToOne
-    @JoinColumn(name = "employeeId", insertable = false, updatable = false)
+    @JoinColumn(name = "employeeId", insertable = true, updatable = true)
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "delivererId",insertable = false,updatable = false)
+    @JoinColumn(name = "delivererId",insertable = true,updatable = true)
     private Deliverer deliverer;
 
     @ManyToOne
-    @JoinColumn(name = "customerId", insertable = false, updatable = false)
+    @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;
 
     // Getters and setters
