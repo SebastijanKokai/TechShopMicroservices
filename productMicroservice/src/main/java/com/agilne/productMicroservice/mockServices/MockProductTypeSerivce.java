@@ -4,7 +4,6 @@ import com.agilne.productMicroservice.models.ProductType;
 import com.agilne.productMicroservice.services.interfaces.ProductTypeService;
 import org.springframework.stereotype.Service;
 
-@Service
 public class MockProductTypeSerivce implements ProductTypeService {
     @Override
     public ProductType GetProductTypeById(Integer id) {
