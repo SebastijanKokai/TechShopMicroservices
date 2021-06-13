@@ -24,6 +24,21 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<OrderProduct> orders;
 
+
+    public Customer() {
+
+    }
+
+    public Customer(Integer id, String name, String lastName, String contact, String address) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.contact = contact;
+        this.address = address;
+    }
+
+
+
     public Integer getId() { return id; }
 
     public void setId(Integer id) { this.id = id; }

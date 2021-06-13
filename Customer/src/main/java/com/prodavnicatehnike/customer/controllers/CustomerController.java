@@ -1,7 +1,10 @@
 package com.prodavnicatehnike.customer.controllers;
 
+import com.prodavnicatehnike.customer.dtos.CreateCustomerDTO;
+import com.prodavnicatehnike.customer.dtos.GetCustomerDTO;
 import com.prodavnicatehnike.customer.models.Customer;
 import com.prodavnicatehnike.customer.repositories.CustomerRepository;
+import com.prodavnicatehnike.customer.services.interfaces.CustomerService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,44 +18,41 @@ import java.util.Optional;
 public class CustomerController {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerService customerService;
 
     @GetMapping()
-    ResponseEntity<List<Customer>> getAllCustomers(){
-        return ResponseEntity.ok(customerRepository.findAll());
+    ResponseEntity<List<GetCustomerDTO>> getAllCustomers(){
+
+        return ResponseEntity.ok(customerService.findAllCustomers());
     }
 
     @GetMapping(path="/{id}")
-    ResponseEntity<Optional<Customer>> getCustomerByID(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(customerRepository.findById(id));
+    ResponseEntity<GetCustomerDTO> getCustomerByID(@PathVariable("id") Integer id){
+
+        if(customerService.findCustomerById(id) != null) {
+            return ResponseEntity.ok(customerService.findCustomerById(id));
+        }
+        else
+            return ResponseEntity.badRequest().body(customerService.findCustomerById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Customer> insertCustomer(@RequestBody Customer customer){
-        return ResponseEntity.ok(customerRepository.save(customer));
+    public ResponseEntity<GetCustomerDTO> insertCustomer(@RequestBody CreateCustomerDTO customer){
+        return ResponseEntity.ok(customerService.createCustomer(customer));
     }
 
     @PutMapping(path="/{id}")
-    public ResponseEntity<Optional<Customer>> updateCustomer(@RequestBody Customer newCustomer, @PathVariable Integer id){
-        Optional<Customer> customer = customerRepository.findById(id).map(oldCustomer -> {
-            oldCustomer.setName(newCustomer.getName());
-            oldCustomer.setLastName(newCustomer.getLastName());
-            oldCustomer.setAddress(newCustomer.getAddress());
-            oldCustomer.setContact(newCustomer.getContact());
-            return customerRepository.save(oldCustomer);
-        });
-        if(customer.isPresent()){
-            return ResponseEntity.ok(customer);
+    public ResponseEntity<GetCustomerDTO> updateCustomer(@RequestBody CreateCustomerDTO newCustomer, @PathVariable Integer id){
+        if(customerService.updateCustomer(newCustomer,id) != null) {
+            return ResponseEntity.ok(customerService.updateCustomer(newCustomer,id));
         }
-        else {
-            return ResponseEntity.badRequest().body(customer);
-        }
-
+        else
+            return ResponseEntity.badRequest().body(customerService.updateCustomer(newCustomer,id));
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable("id") Integer id){
-        customerRepository.deleteById(id);
+        customerService.deleteCustomer(id);
         return  ResponseEntity.noContent().build();
     }
 

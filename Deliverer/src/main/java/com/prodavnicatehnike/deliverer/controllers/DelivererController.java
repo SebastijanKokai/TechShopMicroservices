@@ -1,7 +1,10 @@
 package com.prodavnicatehnike.deliverer.controllers;
 
+import com.prodavnicatehnike.deliverer.dtos.CreateDelivererDTO;
+import com.prodavnicatehnike.deliverer.dtos.GetDelivererDTO;
 import com.prodavnicatehnike.deliverer.models.Deliverer;
 import com.prodavnicatehnike.deliverer.repositories.DelivererRepository;
+import com.prodavnicatehnike.deliverer.services.interfaces.DelivererService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,44 +17,39 @@ import java.util.Optional;
 public class DelivererController {
 
     @Autowired
-    private DelivererRepository delivererRepository;
+    private DelivererService delivererService;
 
     @GetMapping()
-    ResponseEntity<List<Deliverer>> getAllDeliverers(){
-
-        return ResponseEntity.ok(delivererRepository.findAll());
+    ResponseEntity<List<GetDelivererDTO>> getAllDeliverers(){
+        return ResponseEntity.ok(delivererService.findAllDeliverers());
     }
 
     @GetMapping(path="/{id}")
-    ResponseEntity<Optional<Deliverer>> getDelivererByID(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(delivererRepository.findById(id));
+    ResponseEntity<GetDelivererDTO> getDelivererByID(@PathVariable("id") Integer id){
+        if(delivererService.findDelivererById(id) != null) {
+            return ResponseEntity.ok(delivererService.findDelivererById(id));
+        }
+        else
+            return ResponseEntity.badRequest().body(delivererService.findDelivererById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Deliverer> insertDeliverer(@RequestBody Deliverer deliverer){
-        return ResponseEntity.ok(delivererRepository.save(deliverer));
+    public ResponseEntity<GetDelivererDTO> insertDeliverer(@RequestBody CreateDelivererDTO deliverer){
+        return ResponseEntity.ok(delivererService.createDeliverer(deliverer));
     }
 
     @PutMapping(path="/{id}")
-    public ResponseEntity<Optional<Deliverer>> updateCustomer(@RequestBody Deliverer newDeliverer, @PathVariable Integer id){
-        Optional<Deliverer> deliverer = delivererRepository.findById(id).map(oldDeliverer -> {
-            oldDeliverer.setCompanyName(newDeliverer.getCompanyName());
-            oldDeliverer.setAddress(newDeliverer.getAddress());
-            oldDeliverer.setContact(newDeliverer.getContact());
-            return delivererRepository.save(oldDeliverer);
-        });
-        if(deliverer.isPresent()){
-            return ResponseEntity.ok(deliverer);
-        }
-        else {
-            return ResponseEntity.badRequest().body(deliverer);
-        }
-
+    public ResponseEntity<GetDelivererDTO> updateCustomer(@RequestBody CreateDelivererDTO newDeliverer, @PathVariable Integer id){
+       if(delivererService.updateDeliverer(newDeliverer,id) != null) {
+           return ResponseEntity.ok(delivererService.updateDeliverer(newDeliverer, id));
+       }
+       else
+           return ResponseEntity.badRequest().body(delivererService.updateDeliverer(newDeliverer,id));
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable("id") Integer id){
-        delivererRepository.deleteById(id);
+        delivererService.deleteDeliverer(id);
         return  ResponseEntity.noContent().build();
     }
 }
