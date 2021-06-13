@@ -1,14 +1,15 @@
 package com.iis.prodavnicatehnike.producttype.services.interfaces;
 
-import com.iis.prodavnicatehnike.producttype.models.ProductType;
+import com.iis.prodavnicatehnike.producttype.dtos.CreateProductTypeDTO;
+import com.iis.prodavnicatehnike.producttype.dtos.ProductTypeDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductTypeService {
-        List<ProductType> findAllProductTypes();
-        Optional<ProductType> findProductTypeById(Integer id);
-        ProductType createProductType(ProductType productType);
-        Optional<ProductType> updateProductType(ProductType productType, Integer id);
+        List<ProductTypeDTO> findAllProductTypes();
+        Optional<ProductTypeDTO> findProductTypeById(Integer id);
+        ProductTypeDTO createProductType(CreateProductTypeDTO productType);
+        Optional<ProductTypeDTO> updateProductType(CreateProductTypeDTO productType, Integer id);
         void deleteProductType(Integer id);
 }

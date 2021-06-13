@@ -1,6 +1,7 @@
 package com.iis.prodavnicatehnike.producttype.controllers;
 
-import com.iis.prodavnicatehnike.producttype.models.ProductType;
+import com.iis.prodavnicatehnike.producttype.dtos.CreateProductTypeDTO;
+import com.iis.prodavnicatehnike.producttype.dtos.ProductTypeDTO;
 import com.iis.prodavnicatehnike.producttype.services.interfaces.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,27 +18,27 @@ public class ProductTypeController {
     private ProductTypeService productTypeService;
 
     @GetMapping()
-    public ResponseEntity<List<ProductType>> getAllProductTypes() {
+    public ResponseEntity<List<ProductTypeDTO>> getAllProductTypes() {
 
         return ResponseEntity.ok(productTypeService.findAllProductTypes());
     }
 
     @GetMapping(path="{id}")
-    public ResponseEntity<Optional<ProductType>> getProductTypeById(@PathVariable("id") Integer id)
+    public ResponseEntity<Optional<ProductTypeDTO>> getProductTypeById(@PathVariable("id") Integer id)
     {
         return  ResponseEntity.ok(productTypeService.findProductTypeById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<ProductType> insertProductType(@RequestBody ProductType productType)
+    public ResponseEntity<ProductTypeDTO> insertProductType(@RequestBody CreateProductTypeDTO productType)
     {
         return ResponseEntity.ok(productTypeService.createProductType(productType));
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Optional<ProductType>> updateProductType(@RequestBody ProductType newProductType, @PathVariable("id") Integer id)
+    public ResponseEntity<Optional<ProductTypeDTO>> updateProductType(@RequestBody CreateProductTypeDTO newProductType, @PathVariable("id") Integer id)
     {
-        Optional<ProductType> productType = productTypeService.updateProductType(newProductType, id);
+        Optional<ProductTypeDTO> productType = productTypeService.updateProductType(newProductType, id);
         if (productType.isPresent()) {
             return ResponseEntity.ok(productType);
         } else {

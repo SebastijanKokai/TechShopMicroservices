@@ -1,11 +1,14 @@
 package com.iis.prodavnicatehnike.producttype.services.implementations;
 
+import com.iis.prodavnicatehnike.producttype.dtos.CreateProductTypeDTO;
+import com.iis.prodavnicatehnike.producttype.dtos.ProductTypeDTO;
 import com.iis.prodavnicatehnike.producttype.models.ProductType;
 import com.iis.prodavnicatehnike.producttype.repositories.ProductTypeRepository;
 import com.iis.prodavnicatehnike.producttype.services.interfaces.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,25 +19,35 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     private ProductTypeRepository productTypeRepository;
 
     @Override
-    public List<ProductType> findAllProductTypes() {
-        return productTypeRepository.findAll();
+    public List<ProductTypeDTO> findAllProductTypes() {
+        List<ProductType> productTypeEntities = productTypeRepository.findAll();
+        List<ProductTypeDTO> productTypeDTOS = new ArrayList<>();
+        for (ProductType productType : productTypeEntities) {
+            productTypeDTOS.add(new ProductTypeDTO(productType.getId(), productType.getName()));
+        }
+        return productTypeDTOS;
     }
 
     @Override
-    public Optional<ProductType> findProductTypeById(Integer id) {
-        return productTypeRepository.findById(id);
+    public Optional<ProductTypeDTO> findProductTypeById(Integer id) {
+        Optional<ProductType> productTypeEntity = productTypeRepository.findById(id);
+        return productTypeEntity.map(productType -> new ProductTypeDTO(productType.getId(), productType.getName()));
     }
 
     @Override
-    public ProductType createProductType(ProductType productType) {
-        return productTypeRepository.save(productType);
+    public ProductTypeDTO createProductType(CreateProductTypeDTO productType) {
+        ProductType productTypeEntity = new ProductType();
+        productTypeEntity.setName(productType.getName());
+        ProductType newEntity = productTypeRepository.save(productTypeEntity);
+        return new ProductTypeDTO(newEntity.getId(), newEntity.getName());
     }
 
     @Override
-    public Optional<ProductType> updateProductType(ProductType newProductType, Integer id) {
+    public Optional<ProductTypeDTO> updateProductType(CreateProductTypeDTO newProductType, Integer id) {
         return productTypeRepository.findById(id).map(oldProductType -> {
             oldProductType.setName(newProductType.getName());
-            return productTypeRepository.save(oldProductType);
+            ProductType updatedProductType = productTypeRepository.save(oldProductType);
+            return new ProductTypeDTO(updatedProductType.getId(), updatedProductType.getName());
         });
     }
 
