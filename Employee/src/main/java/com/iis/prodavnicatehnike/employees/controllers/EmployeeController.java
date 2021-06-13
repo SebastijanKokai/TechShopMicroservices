@@ -1,4 +1,6 @@
 package com.iis.prodavnicatehnike.employees.controllers;
+import com.iis.prodavnicatehnike.employees.dtos.CreateEmployeeDTO;
+import com.iis.prodavnicatehnike.employees.dtos.EmployeeDTO;
 import com.iis.prodavnicatehnike.employees.models.Employee;
 import com.iis.prodavnicatehnike.employees.services.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +18,23 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping()
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.findAllEmployees());
     }
 
     @GetMapping(path="/{id}")
-    public ResponseEntity<Optional<Employee>> getEmployeeById(@PathVariable("id") Integer id){
+    public ResponseEntity<Optional<EmployeeDTO>> getEmployeeById(@PathVariable("id") Integer id){
         return ResponseEntity.ok(employeeService.findEmployeeById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Employee> insertEmployee(@RequestBody Employee employee){
+    public ResponseEntity<EmployeeDTO> insertEmployee(@RequestBody CreateEmployeeDTO employee){
         return ResponseEntity.ok(employeeService.createEmployee(employee));
     }
 
     @PutMapping(path="/{id}")
-    public ResponseEntity<Optional<Employee>> updateEmployee(@RequestBody Employee newEmployee, @PathVariable Integer id){
-        Optional<Employee> employee = employeeService.updateEmployee(newEmployee, id);
+    public ResponseEntity<Optional<EmployeeDTO>> updateEmployee(@RequestBody CreateEmployeeDTO newEmployee, @PathVariable Integer id){
+        Optional<EmployeeDTO> employee = employeeService.updateEmployee(newEmployee, id);
         if (employee.isPresent()) {
             return ResponseEntity.ok(employee);
         } else {
