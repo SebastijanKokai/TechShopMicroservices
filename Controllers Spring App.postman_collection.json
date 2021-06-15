@@ -1,0 +1,548 @@
+{
+	"info": {
+		"_postman_id": "9a893e33-14c3-403f-8df0-c81e00287a79",
+		"name": "Controllers Spring App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET ALL ORDERS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8085/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ORDER BY ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8085/orders/23",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"orders",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE ORDER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employee\": 5,\r\n    \"deliverer\": 4,\r\n    \"customer\": 3,\r\n    \"orderDate\": \"2020-09-09\",\r\n    \"price\": 1111,\r\n    \"orderItems\": [\r\n            {\r\n                \"productId\": 7,\r\n                \"quantity\": 100\r\n            },\r\n            {\r\n                \"productId\": 2,\r\n                \"quantity\": 200\r\n            }\r\n        ]\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8085/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MODIFY ORDER",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderDate\": \"1777-09-09\",\r\n    \"price\": 1024\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8085/orders/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"orders",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ORDER",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8085/orders/23",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"orders",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ORDER ITEMS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8084/items",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GER ORDER ITEM BY ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8084/items/2/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"items",
+						"2",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE ORDER ITEM",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": 5,\r\n    \"orderId\": 1,\r\n    \"quantity\": 1024\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8084/items",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MODIFY ORDER ITEM",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\": 1001\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8084/items/2/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"items",
+						"2",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ORDER ITEM",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8084/items/2/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"items",
+						"2",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL ASSEMBLIES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8088/assemblies",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"assemblies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE ASSEMBLY",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"partId\": 2,\r\n    \"assemblyId\": 9,\r\n    \"assemblyName\": \"Laptop 1\",\r\n    \"quantity\": 5\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8088/assemblies",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"assemblies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MODIFY ASSEMBLY",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8088/assemblies/8/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"assemblies",
+						"8",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL EMPLOYEES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/employees/9",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"employees",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST EMPLOYEE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Sebastijan\",\r\n        \"lastName\": \"Kokai\",\r\n        \"contact\": \"061-222-33-66\"\r\n    }"
+				},
+				"url": {
+					"raw": "localhost:8083/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET PRODUCTS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8087/products/",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST PRODUCT",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"TESTING\",\r\n        \"typeId\": 2,\r\n        \"available\": 999\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8087/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET CUSTOMERS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/customers",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET DELIVERERS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8082/deliverers/",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"deliverers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST CUSTOMER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Petar\",\r\n        \"lastName\": \"Petrovic\",\r\n        \"contact\": \"061123456789\",\r\n        \"address\": \"Petra Petrovica 1\"\r\n    }"
+				},
+				"url": {
+					"raw": "localhost:8081/customers",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST DELIVERER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"companyName\": \"TestCompany\",\r\n        \"contact\": \"00199888\",\r\n        \"address\": \"TestAddress\"\r\n    }"
+				},
+				"url": {
+					"raw": "localhost:8082/deliverers",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"deliverers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET PRODUCT TYPE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8086/product-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"product-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST PRODUCT TYPE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Test product type\"\r\n    }"
+				},
+				"url": {
+					"raw": "localhost:8086/product-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"product-types"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
